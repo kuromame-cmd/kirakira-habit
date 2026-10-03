@@ -1,0 +1,216 @@
+<link rel="stylesheet" href="./style.css">
+
+<div id="sparkleLayer" class="sparkle-layer" aria-hidden="true"></div>
+
+<main class="app-shell">
+  <header class="app-header">
+    <div>
+      <h1>キラキラ習慣帳 ✨</h1>
+      <p>がんばった日を、シールで彩ろう</p>
+    </div>
+    <button id="settingsButton" class="icon-button" aria-label="設定">⚙️</button>
+  </header>
+
+  <section class="card calendar-card">
+    <div class="calendar-head">
+      <button id="prevMonth" class="nav-button" aria-label="前月">‹</button>
+      <h2 id="monthTitle"></h2>
+      <button id="nextMonth" class="nav-button" aria-label="翌月">›</button>
+    </div>
+
+    <div class="weekdays">
+      <span>日</span>
+      <span>月</span>
+      <span>火</span>
+      <span>水</span>
+      <span>木</span>
+      <span>金</span>
+      <span>土</span>
+    </div>
+
+    <div id="calendarGrid" class="calendar-grid"></div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">
+      <span>今月の記録</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <strong id="monthlyDays">0日</strong>
+        <span>📅 勉強日数</span>
+      </div>
+
+      <div class="stat">
+        <strong id="monthlyTime">0分</strong>
+        <span>⏱ 勉強時間</span>
+      </div>
+
+      <div class="stat">
+        <strong id="currentStreak">0日</strong>
+        <span>🔥 連続記録</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">
+      <span>🎁 次のごほうび</span>
+    </div>
+
+    <div id="monthlyReward" class="reward-box"></div>
+    <div id="streakReward" class="reward-box"></div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">
+      <span>✨ シールコレクション</span>
+    </div>
+
+    <div id="collection" class="collection"></div>
+  </section>
+
+  <section class="card">
+    <div class="section-title">
+      <span>TOTAL RECORD</span>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <strong id="totalDays">0日</strong>
+        <span>📅 累計勉強日数</span>
+      </div>
+
+      <div class="stat">
+        <strong id="totalTime">0分</strong>
+        <span>⏱ 累計勉強時間</span>
+      </div>
+
+      <div class="stat">
+        <strong id="longestStreak">0日</strong>
+        <span>🔥 最長連続記録</span>
+      </div>
+    </div>
+  </section>
+
+  <button id="reportButton" class="primary-button report-button">
+    ✨ 今月のまとめを見る
+  </button>
+</main>
+
+<!-- 記録モーダル -->
+<div id="recordModal" class="modal hidden">
+  <div class="modal-card">
+    <button class="modal-close" data-close="recordModal">×</button>
+
+    <h2 id="recordDateTitle"></h2>
+
+    <label class="field">
+      <span>📝 今日なに頑張った？</span>
+      <textarea
+        id="memoInput"
+        rows="3"
+        maxlength="200"
+        placeholder="空欄でもOK"
+      ></textarea>
+    </label>
+
+    <label class="field">
+      <span>⏱ 何分やった？</span>
+      <input
+        id="minutesInput"
+        type="number"
+        min="0"
+        max="1440"
+        inputmode="numeric"
+        placeholder="空欄でもOK"
+      >
+    </label>
+
+    <div class="field">
+      <span>✨ ご褒美シール</span>
+      <div id="stickerChoices" class="sticker-choices"></div>
+    </div>
+
+    <button id="saveRecordButton" class="primary-button">
+      ✨ 記録する
+    </button>
+
+    <button id="deleteRecordButton" class="danger-link hidden">
+      シールをはがす
+    </button>
+  </div>
+</div>
+
+<!-- 新シール獲得モーダル -->
+<div id="unlockModal" class="modal hidden">
+  <div class="modal-card unlock-card">
+    <div id="unlockKicker" class="unlock-kicker">
+      ✨ NEW STICKER! ✨
+    </div>
+
+    <div id="unlockEmoji" class="unlock-emoji">💎</div>
+
+    <h2 id="unlockTitle"></h2>
+    <p id="unlockMessage"></p>
+
+    <button id="unlockCloseButton" class="primary-button">
+      コレクションを見る ✨
+    </button>
+  </div>
+</div>
+
+<!-- 月間レポート -->
+<div id="reportModal" class="modal hidden">
+  <div class="modal-card report-modal-card">
+    <button class="modal-close" data-close="reportModal">×</button>
+
+    <div id="reportContent"></div>
+
+    <button id="saveReportImageButton" class="primary-button">
+      🖼️ 画像として保存
+    </button>
+  </div>
+</div>
+
+<!-- 設定 -->
+<div id="settingsModal" class="modal hidden">
+  <div class="modal-card">
+    <button class="modal-close" data-close="settingsModal">×</button>
+
+    <h2>⚙️ データ管理</h2>
+
+    <p class="muted">
+      記録はこのブラウザ内に保存されています。
+    </p>
+
+    <button id="exportButton" class="secondary-button">
+      💾 バックアップを作る
+    </button>
+
+    <button id="importButton" class="secondary-button">
+      📥 バックアップから復元
+    </button>
+
+    <textarea
+      id="backupText"
+      class="backup-text"
+      rows="8"
+      placeholder="バックアップデータがここに表示されます。復元時はここへ貼り付けてください。"
+    ></textarea>
+
+    <button id="restoreButton" class="primary-button">
+      バックアップを復元する
+    </button>
+  </div>
+</div>
+
+<canvas
+  id="reportCanvas"
+  width="1080"
+  height="1080"
+  class="hidden"
+></canvas>
+
+<script src="./script.js"></script>
